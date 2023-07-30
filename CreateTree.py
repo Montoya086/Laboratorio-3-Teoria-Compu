@@ -43,3 +43,9 @@ def printTree(tree, level=0):
         printTree(tree.right, level+1)
         print(' ' * 4 * level + '->', tree.data)
         printTree(tree.left, level+1)
+
+def getLevels(tree):
+    if tree == None:
+        return 0
+    else:
+        return max(getLevels(tree.left), getLevels(tree.right)) + 1

@@ -1,5 +1,5 @@
 import re
-from CreateTree import buildTree, printTree
+from CreateTree import buildTree, printTree, getLevels
 def ShuntingYard (expression):
     closingBrackets = [")", "]", "}"]
     openingBrackets = ["(", "[", "{"]
@@ -54,7 +54,39 @@ def ShuntingYard (expression):
         return new_expression
     
     def convertInterrogation(expression):
-        return expression.replace('?', '|ε')
+        stack = []
+        openBracketList=[]
+        i=0
+        for c in expression:
+            if c == '?':
+                if expression[i-1] == ')':
+                    for j in range(i-1, -1, -1):
+                        if expression[j] == ')':
+                            stack.append(expression[j])
+                        elif expression[j] == '(':
+                            stack.pop()
+                            if(len(stack) == 0):
+                                openBracketList.append(j+1)
+                                break
+                else:
+                    openBracketList.append(i-1)
+                    
+            i+=1
+        
+        newExpression = ""
+        i=0
+        for c in expression:
+            if i in openBracketList:
+                count = openBracketList.count(i)
+                newExpression += '('*count+c
+            elif c == '?':
+                newExpression += c + ')'
+            else:
+                newExpression += c
+            i+=1
+                        
+
+        return newExpression.replace('?', '|ε')
     
     def convertConcatenation(expression):
 
@@ -175,4 +207,10 @@ for line in open("InfixExp.txt"):
 for line in fixedlines:
     postfixExp = ShuntingYard(line)
     print("\n********************* Result *********************\n"+postfixExp+"\n*****************************************************")
-    printTree(buildTree(postfixExp))
+    tree = buildTree(postfixExp)
+    print("Syntactical tree:\n")
+    level = ""
+    for i in range(getLevels(tree)):
+        level += "  L"+str(i)
+    print(level+"\n")
+    printTree(tree)
