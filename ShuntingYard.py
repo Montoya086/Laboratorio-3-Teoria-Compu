@@ -218,5 +218,5 @@ for line in fixedlines:
     print(level+"\n")
     printTree(tree)
     treeGraph=graphTree(tree)
-    treeGraph.render('SyntacticTree'+str(j+1), view=True)
+    treeGraph.render('./Graphs/SyntacticTree'+str(j+1), view=True)
     j+=1

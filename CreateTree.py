@@ -52,7 +52,7 @@ def getLevels(tree):
         return max(getLevels(tree.left), getLevels(tree.right)) + 1
     
 def graphTree(tree):
-    tGraph = Digraph(comment='Syntactic tree')
+    tGraph = Digraph(comment='Syntactic tree', format='png')
     
     def addNode(node):
         if node:
