@@ -1,5 +1,7 @@
 import re
-from CreateTree import buildTree, printTree, getLevels
+from CreateTree import buildTree, printTree, getLevels,graphTree
+import os
+os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
 def ShuntingYard (expression):
     closingBrackets = [")", "]", "}"]
     openingBrackets = ["(", "[", "{"]
@@ -204,6 +206,7 @@ fixedlines = []
 for line in open("InfixExp.txt"):
     fixedlines.append(line.replace(" ", "").replace("\n", ""))
 
+j=0
 for line in fixedlines:
     postfixExp = ShuntingYard(line)
     print("\n********************* Result *********************\n"+postfixExp+"\n*****************************************************")
@@ -214,3 +217,6 @@ for line in fixedlines:
         level += "  L"+str(i)
     print(level+"\n")
     printTree(tree)
+    treeGraph=graphTree(tree)
+    treeGraph.render('SyntacticTree'+str(j+1), view=True)
+    j+=1

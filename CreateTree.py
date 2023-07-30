@@ -1,3 +1,4 @@
+from graphviz import Digraph
 class Node():
     def __init__(self, data):
         self.data = data
@@ -49,3 +50,19 @@ def getLevels(tree):
         return 0
     else:
         return max(getLevels(tree.left), getLevels(tree.right)) + 1
+    
+def graphTree(tree):
+    tGraph = Digraph(comment='Syntactic tree')
+    
+    def addNode(node):
+        if node:
+            tGraph.node(str(id(node)), node.data)
+            if node.left:
+                tGraph.edge(str(id(node)), str(id(node.left)))
+                addNode(node.left)
+            if node.right:
+                tGraph.edge(str(id(node)), str(id(node.right)))
+                addNode(node.right)
+
+    addNode(tree)
+    return tGraph
